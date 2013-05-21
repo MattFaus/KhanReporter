@@ -1,3 +1,16 @@
 KhanReporter
 
 Queries the Khan Academy API for data about student exercise proficiency. Pushes that data to GDocs spreadsheet(s) using the Google Apps API.
+
+To use:
+1. Register your app on https://www.khanacademy.org/api-apps/register
+2. Create a file private/Oauth.txt, and fill it with your consumer key/secret, like:
+    ConsumerKey= <key from https://www.khanacademy.org/api-apps/register>
+    ConsumerSecret= <secret from https://www.khanacademy.org/api-apps/register>
+3. Create a file private/student_uuids.txt, put 1 student's key_email per line in this file.
+4. Call `python KhanOAuthConnector.py`, authenticate, watch the output.
+
+
+Not sure what GDocsClient.py does, but apparently it needs a gdata module that is not included.
+
+ImportError: No module named gdata.spreadsheet

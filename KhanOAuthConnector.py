@@ -24,6 +24,9 @@ class KhanOAuth():
 
     def initConnection(self):
 
+        # Create a file with a format like this:
+        # ConsumerKey= <key from https://www.khanacademy.org/api-apps/register>
+        # ConsumerSecret= <secret from https://www.khanacademy.org/api-apps/register>
         oauthPath = os.path.join("private", "OAuth.txt")
         file = open(oauthPath).readlines()
         self.CONSUMER_KEY = file[0].split()[1]
@@ -112,13 +115,16 @@ if __name__ == "__main__":
             print
         except Exception, e:
             print "Error: %s" % e
-        
+
         print("---")
         if (response.strip() != 'null'):
             jsonObject = json.loads(response)
             profList = jsonObject.get("all_proficient_exercises")
             nickname = jsonObject.get("nickname")
-            print nickname
+            print nickname, 'proficient in the following exercises', profList
+            print '--- Querying for data on individual exercises ---'
+            # TODO(mattfaus): Avoid urllib2.URLError: <urlopen error [Errno 54] Connection reset by peer>
+            # when downloading a lot of information about a lot of different exercises
             for p in profList:
                 exerciseResponse = KOA.get_api_resource \
                     ("/api/v1/user/exercises/" + p + "?email=" + studentUUID)
@@ -129,5 +135,5 @@ if __name__ == "__main__":
                     if (proficientDate): sys.stdout.write(proficientDate)
                     else: sys.stdout.write("null")
                     sys.stdout.write('\n')
-            
-    
+
+
